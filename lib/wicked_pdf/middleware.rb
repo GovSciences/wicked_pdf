@@ -38,12 +38,8 @@ class WickedPdf
 
     private
 
-    # Change relative paths to absolute
     def translate_paths(body, env)
-      # Host with protocol
-      root = WickedPdf.config[:root_url] || "#{env['rack.url_scheme']}://#{env['HTTP_HOST']}/"
-
-      body.gsub(/(href|src)=(['"])\/(|[^\/](?:[^\"']*|[^"']*))['"]/, '\1=\2' + root + '\3\2')
+      WickedPdf.translate_paths(body, env['rack.url_scheme'], env['HTTP_HOST'])
     end
 
     def rendering_pdf?

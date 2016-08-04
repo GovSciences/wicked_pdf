@@ -93,6 +93,15 @@ class WickedPdf
     generated_pdf_file.close! if generated_pdf_file && !return_file
   end
 
+  # Change relative paths to absolute
+  def self.translate_paths(body, scheme, host_with_port)
+    # Host with protocol
+    root = WickedPdf.config[:root_url] || "#{scheme}://#{host_with_port}/"
+
+    body.gsub(/(href|src)=(['"])\/(|[^\/](?:[^\"']*|[^"']*))['"]/, '\1=\2' + root + '\3\2')
+        .gsub(/(href|src)=(['"])\/\//, '\1=\2' + scheme + '://')
+  end
+
   private
 
   def in_development_mode?
