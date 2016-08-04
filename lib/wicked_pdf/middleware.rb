@@ -43,7 +43,7 @@ class WickedPdf
       # Host with protocol
       root = WickedPdf.config[:root_url] || "#{env['rack.url_scheme']}://#{env['HTTP_HOST']}/"
 
-      body.gsub(/(href|src)=(['"])\/([^\"']*|[^"']*)['"]/, '\1=\2' + root + '\3\2')
+      body.gsub(/(href|src)=(['"])\/(|[^\/](?:[^\"']*|[^"']*))['"]/, '\1=\2' + root + '\3\2')
     end
 
     def rendering_pdf?
